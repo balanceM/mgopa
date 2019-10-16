@@ -1,6 +1,7 @@
 package hunter
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -55,6 +56,10 @@ func GetUrls(curl chan []byte, task Task, regex *regexp.Regexp) {
 	log.Print("Parsing external links: ", string(task.Url))
 	matches := regex.FindAllSubmatch(task.Response, -1)
 	for _, match := range matches {
+		if(string(match[1]) == "http://zhidao.baidu.com/"){
+			fmt.Println("==========break===========")
+			break
+		}
 		curl <- match[1]
 	}
 }
